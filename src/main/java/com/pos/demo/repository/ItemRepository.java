@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 @Mapper
@@ -14,4 +15,7 @@ import java.util.Optional;
 public interface ItemRepository {
     @Select("SELECT * FROM item WHERE item_id = #{item_id}")
     Optional<ItemEntity> findById(@Param("item_id") BigInteger item_id);
+
+    @Select("SELECT * FROM item")
+    List<ItemEntity> findAll();
 }

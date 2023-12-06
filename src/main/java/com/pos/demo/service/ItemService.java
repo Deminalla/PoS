@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,11 +22,8 @@ public class ItemService {
     private final ItemMapper itemMapper;
 
     public ItemDto getItemByID(BigInteger item_id) {
-
         log.info("Searching for item with ID {}", item_id);
-
         Optional<ItemEntity> itemEntity = itemRepository.findById(item_id);
-
 
         if (itemEntity.isEmpty()) {
             log.warn("Item was not found");
@@ -33,6 +31,11 @@ public class ItemService {
         }
 
         return itemMapper.entityToDto(itemEntity.get());
+    }
 
+    public List<ItemDto> getAllItems() {
+        log.info("Fetching all items");
+        List<ItemEntity> itemEntities = itemRepository.findAll();
+        return itemMapper.entityListToDto(itemEntities);
     }
 }
