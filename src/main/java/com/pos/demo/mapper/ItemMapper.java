@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface ItemMapper {
-    @Mapping(target = "out_of_stock", source = "out_of_stock")
+    @Mapping(target = "outOfStock", source = "outOfStock")
     ItemDto entityToDto(ItemEntity itemEntity);
 
     default boolean byteToBoolean(byte value) {

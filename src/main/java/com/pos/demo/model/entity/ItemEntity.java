@@ -4,18 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemEntity {
+    // all the id fields were changed to uuid to be more secure and have more variations
     private String name;
     private Double price;
     private String description;
-    private String category_id;
+    private UUID categoryId; // changed from in to UUID
     private String type;
-    private BigInteger item_id;
-    private String business_id;
-    private byte out_of_stock;
+    private UUID itemId; // changed from int to UUID
+    private UUID businessId; // changed from string to UUID
+    private byte outOfStock;
 }
