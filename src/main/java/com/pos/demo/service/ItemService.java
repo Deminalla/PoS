@@ -26,7 +26,6 @@ public class ItemService {
     public ItemDto getItemByID(UUID itemId) {
         log.info("Searching for item with ID {}", itemId);
         Optional<ItemEntity> itemEntity = itemRepository.findById(itemId);
-
         if (itemEntity.isEmpty()) {
             log.warn("Item was not found");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Item was not found");
@@ -68,5 +67,12 @@ public class ItemService {
         itemRepository.updateItem(itemDto);
 
         return itemDto;
+    }
+
+    public ItemDto deleteItemByID(UUID itemId){
+        ItemDto item = getItemByID(itemId);
+        itemRepository.deleteItem(itemId);
+        log.info("Item {} was deleted", item);
+        return item;
     }
 }

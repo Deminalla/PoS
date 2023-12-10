@@ -2,6 +2,7 @@ package com.pos.demo.repository;
 
 import com.pos.demo.model.dto.item.ItemDto;
 import com.pos.demo.model.entity.ItemEntity;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -37,4 +38,7 @@ public interface ItemRepository {
             "out_of_stock = #{item.outOfStock} " +
             "WHERE item_id = #{item.itemId}")
     void updateItem(@Param("item") ItemDto item);
+
+    @Delete("DELETE FROM item WHERE item_id=(#{itemId})")
+    void deleteItem(@Param("itemId") UUID itemId);
 }
