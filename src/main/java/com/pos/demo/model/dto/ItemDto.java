@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigInteger;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -13,10 +13,10 @@ public class ItemDto {
     private String name;
     private Double price;
     private String description;
-    private String category_id;
+    private UUID categoryId;
     private String type;
-    private BigInteger item_id;
-    private String business_id;
-    private boolean out_of_stock;
+    private UUID itemId;
+    private UUID businessId;
+    private boolean outOfStock;
 
 }

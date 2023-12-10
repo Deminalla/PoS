@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigInteger;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,9 +18,9 @@ import java.util.List;
 public class ItemController {
     private final ItemService itemService;
 
-    @GetMapping("/{item_id}")
-    ResponseEntity<ItemDto> getItemsById(@PathVariable BigInteger item_id) {
-        return ResponseEntity.ok(itemService.getItemByID(item_id));
+    @GetMapping("/{itemId}")
+    ResponseEntity<ItemDto> getItemsById(@PathVariable UUID itemId) {
+        return ResponseEntity.ok(itemService.getItemByID(itemId));
     }
 
     @GetMapping
