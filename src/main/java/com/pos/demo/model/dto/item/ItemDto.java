@@ -1,4 +1,4 @@
-package com.pos.demo.model.dto;
+package com.pos.demo.model.dto.item;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,13 +10,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ItemDto {
+    private UUID itemId;
     private String name;
     private Double price;
     private String description;
     private UUID categoryId;
     private String type;
-    private UUID itemId;
     private UUID businessId;
     private boolean outOfStock;
-
 }
