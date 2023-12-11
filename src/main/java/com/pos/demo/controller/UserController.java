@@ -6,7 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
+import java.util.UUID;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -15,7 +16,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/{user_id}")
-    ResponseEntity<UserDto> getUserById(@PathVariable BigInteger user_id) {
+    ResponseEntity<UserDto> getUserById(@PathVariable UUID user_id) {
         return ResponseEntity.ok(userService.getUserByID(user_id));
     }
 
@@ -25,7 +26,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{user_id}")
-    ResponseEntity<String> deleteUser(@PathVariable BigInteger user_id)
+    ResponseEntity<String> deleteUser(@PathVariable UUID user_id)
     {
         userService.deleteUser(user_id);
         //return ResponseEntity.ok();

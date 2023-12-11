@@ -11,8 +11,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.math.BigInteger;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Log4j2
@@ -22,7 +22,7 @@ public class UserService {
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public UserDto getUserByID(BigInteger user_id) {
+    public UserDto getUserByID(UUID user_id) {
         log.info("Searching for user with ID {}", user_id);
         Optional<UserEntity> userEntity = userRepository.findById(user_id);
 
@@ -30,6 +30,8 @@ public class UserService {
             log.warn("User was not found");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User was not found");
         }
+
+        log.info(userEntity.get());
 
         return userMapper.entityToDto(userEntity.get());
     }
@@ -63,7 +65,7 @@ public class UserService {
         return userMapper.entityToDto(foundUserEntity.get());
     }
 
-    public void deleteUser(BigInteger user_id)
+    public void deleteUser(UUID user_id)
     {
         log.info("Deleting user with ID {}", user_id);
 
