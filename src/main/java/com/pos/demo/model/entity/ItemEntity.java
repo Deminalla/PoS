@@ -11,12 +11,12 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ItemEntity {
     // all the id fields were changed to uuid to be more secure and have more variations
+    private UUID itemId; // changed from int to UUID
     private String name;
     private Double price;
     private String description;
     private UUID categoryId; // changed from in to UUID
     private String type;
-    private UUID itemId; // changed from int to UUID
     private UUID businessId; // changed from string to UUID
     private byte outOfStock;
 }

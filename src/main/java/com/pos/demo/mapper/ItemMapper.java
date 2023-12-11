@@ -1,6 +1,8 @@
 package com.pos.demo.mapper;
 
-import com.pos.demo.model.dto.ItemDto;
+import com.pos.demo.model.dto.item.CreateItemDto;
+import com.pos.demo.model.dto.item.ItemDto;
+import com.pos.demo.model.dto.item.UpdateItem;
 import com.pos.demo.model.entity.ItemEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -17,4 +19,8 @@ public interface ItemMapper {
     }
 
     List<ItemDto> entityListToDto (List<ItemEntity> itemEntities);
+
+    ItemDto createToDto(CreateItemDto item);
+
+    ItemDto updateToDto(UpdateItem item);
 }
