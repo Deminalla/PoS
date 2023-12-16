@@ -1,6 +1,8 @@
 package com.pos.demo.controller;
 
-import com.pos.demo.model.dto.UserDto;
+import com.pos.demo.model.dto.user.CreateUserDto;
+import com.pos.demo.model.dto.user.UserDto;
+import com.pos.demo.model.dto.user.UserInfoDto;
 import com.pos.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,21 +17,24 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
 
-    @GetMapping("/{user_id}")
-    ResponseEntity<UserDto> getUserById(@PathVariable UUID user_id) {
-        return ResponseEntity.ok(userService.getUserByID(user_id));
+    @GetMapping("/{userId}")
+    ResponseEntity<UserInfoDto> getUserById(@PathVariable UUID userId) {
+        return ResponseEntity.ok(userService.getUserByID(userId));
     }
 
     @PostMapping()
-    ResponseEntity<UserDto> createUser(@RequestBody UserDto newUser) {
+    ResponseEntity<UserInfoDto> createUser(@RequestBody CreateUserDto newUser) {
         return ResponseEntity.ok(userService.createUser(newUser));
     }
 
-    @DeleteMapping("/{user_id}")
-    ResponseEntity<String> deleteUser(@PathVariable UUID user_id)
-    {
-        userService.deleteUser(user_id);
-        //return ResponseEntity.ok();
+    @DeleteMapping("/{userId}")
+    ResponseEntity<String> deleteUser(@PathVariable UUID userId) {
+        userService.deleteUser(userId);
         return ResponseEntity.ok("User deleted successfully");
+    }
+
+    @PutMapping("/{userId}")
+    ResponseEntity<UserInfoDto> updateUser(@PathVariable UUID userId, @RequestBody CreateUserDto updatedUser) {
+        return ResponseEntity.ok(userService.updateUser(userId, updatedUser));
     }
 }

@@ -1,4 +1,4 @@
-package com.pos.demo.model.dto;
+package com.pos.demo.model.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,11 +10,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDto {
-    private UUID user_id;
-    private String first_name;
-    private String last_name;
+    private UUID userId;
+    private String firstName;
+    private String lastName;
     private String email;
     private String password;
     private String address;
-    private int loyalty_points;
+    private int loyaltyPoints;
 }

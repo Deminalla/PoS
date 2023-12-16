@@ -1,4 +1,4 @@
-package com.pos.demo.model.entity;
+package com.pos.demo.model.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 
+//For getting user data from api creation (id omitted)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEntity {
-    private UUID userId;
+public class CreateUserDto {
     private String firstName;
     private String lastName;
     private String email;

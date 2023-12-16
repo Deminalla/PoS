@@ -1,7 +1,9 @@
 package com.pos.demo.service;
 
 import com.pos.demo.mapper.UserMapper;
-import com.pos.demo.model.dto.UserDto;
+import com.pos.demo.model.dto.user.CreateUserDto;
+import com.pos.demo.model.dto.user.UserDto;
+import com.pos.demo.model.dto.user.UserInfoDto;
 import com.pos.demo.model.entity.UserEntity;
 import com.pos.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
@@ -22,61 +25,65 @@ public class UserService {
     private final UserMapper userMapper;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public UserDto getUserByID(UUID user_id) {
-        log.info("Searching for user with ID {}", user_id);
-        Optional<UserEntity> userEntity = userRepository.findById(user_id);
+    @Transactional
+    public UserInfoDto getUserByID(UUID userId) {
+        log.info("Searching for user with ID {}", userId);
+        Optional<UserEntity> userEntity = userRepository.findById(userId);
 
         if (userEntity.isEmpty()) {
             log.warn("User was not found");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User was not found");
         }
 
-        log.info(userEntity.get());
+        UserDto userDto = userMapper.entityToDto(userEntity.get());
 
-        return userMapper.entityToDto(userEntity.get());
+        return userMapper.userToInfo(userDto);
     }
 
-    public UserDto createUser(UserDto newUserDto) {
+    @Transactional
+    public UserInfoDto createUser(CreateUserDto creteUserDto) {
         log.info("Creating new user");
 
-        UserEntity newUserEntity = userMapper.dtoToEntity(newUserDto);
+        //Convert to userDto, add randomId and convert to user entity
+        UserDto newUserDto = userMapper.createToDto(creteUserDto);
+        UUID randomId = UUID.randomUUID();
+        newUserDto.setUserId(randomId);
+        UserEntity userEntity = userMapper.dtoToEntity(newUserDto);
 
         //Check if user already exists
-        if(existsUser(newUserEntity)) {
+        if(userRepository.findByEmail(userEntity.getEmail()).isPresent()) {
             log.warn("User with provided email already exists");
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User with provided email already exists");
         }
 
         //Password hashing
-        newUserEntity.setPassword(passwordEncoder.encode(newUserEntity.getPassword()));
+        String password = passwordEncoder.encode(userEntity.getPassword());
+        userEntity.setPassword(password);
 
         //User creation
-        int response = userRepository.createUser(newUserEntity);
-
-        if (response == 0) {
+        if (userRepository.createUser(userEntity) == 0) {
             log.warn("User creation unsuccessful");
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Error occurred while adding new user to database");
         }
 
         //Retrieving the newly added user
-        Optional<UserEntity> foundUserEntity = userRepository.findById(newUserEntity.getUser_id());
+        Optional<UserEntity> foundUserEntity = userRepository.findById(userEntity.getUserId());
+        UserDto userDto = userMapper.entityToDto(foundUserEntity.get());
 
-        return userMapper.entityToDto(foundUserEntity.get());
+        return userMapper.userToInfo(userDto);
     }
 
-    public void deleteUser(UUID user_id)
-    {
-        log.info("Deleting user with ID {}", user_id);
+    @Transactional
+    public void deleteUser(UUID userId) {
+        log.info("Deleting user with ID {}", userId);
 
         //Check if user exists
-        //Optional<UserEntity> user = userRepository.findById(user_id);
-
-        if(userRepository.findById(user_id).isPresent()) {
-            int response = userRepository.deleteUser(user_id);
+        if(userRepository.findById(userId).isPresent()) {
+            int response = userRepository.deleteUser(userId);
             if(response == 0) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
-                        "Error occurred while trying to delete the user");
+                        "Error occurred while trying to delete the user from the database");
             }
             else {
                 return;
@@ -88,9 +95,26 @@ public class UserService {
 
     }
 
-    public boolean existsUser(UserEntity newUserEntity) {
-        Optional<UserEntity> userEntity = userRepository.findByEmail(newUserEntity.getEmail());
+    @Transactional
+    public UserInfoDto updateUser(UUID userId, CreateUserDto updatedUser)
+    {
+        log.info("Updating user with ID {}", userId);
 
-        return userEntity.isPresent();
+        //Create userDto and add the id
+        UserDto userDto = userMapper.createToDto(updatedUser);
+        userDto.setUserId(userId);
+
+        //Update user info
+        if(userRepository.updateUser(userMapper.dtoToEntity(userDto)) == 0) {
+            log.warn("User update unsuccessful");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Error occurred while updating user in the database.");
+        }
+
+        //Get newly updated user
+        Optional<UserEntity> foundUserEntity = userRepository.findById(userId);
+        UserDto foundUserDto = userMapper.entityToDto(foundUserEntity.get());
+
+        return userMapper.userToInfo(foundUserDto);
     }
 }

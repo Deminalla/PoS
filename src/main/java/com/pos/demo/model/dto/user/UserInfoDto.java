@@ -1,4 +1,4 @@
-package com.pos.demo.model.entity;
+package com.pos.demo.model.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,15 +7,15 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 
+//For getting user info (password omitted)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEntity {
+public class UserInfoDto {
     private UUID userId;
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
     private String address;
     private int loyaltyPoints;
 }

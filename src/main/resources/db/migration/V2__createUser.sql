@@ -7,11 +7,12 @@ CREATE TABLE `user` (
     first_name varchar(50) NOT NULL,
     last_name varchar(50) NOT NULL,
     email varchar(60) NOT NULL,
-    password varchar(64) NOT NULL,
+    password varchar(128) NOT NULL,
     address varchar(50) NOT NULL,
     loyalty_points int UNSIGNED NOT NULL,
 
-    PRIMARY KEY (user_id)
+    PRIMARY KEY (user_id),
+    UNIQUE (email)
 );
 
 INSERT INTO `user` (user_id, first_name, last_name, email, password, address, loyalty_points)
