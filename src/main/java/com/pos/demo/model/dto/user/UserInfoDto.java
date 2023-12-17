@@ -17,5 +17,4 @@ public class UserInfoDto {
     private String lastName;
     private String email;
     private String address;
-    private int loyaltyPoints;
 }

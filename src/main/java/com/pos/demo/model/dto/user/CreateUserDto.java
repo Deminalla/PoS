@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 
 //For getting user data from api creation (id omitted)
 @Data
@@ -17,5 +15,4 @@ public class CreateUserDto {
     private String email;
     private String password;
     private String address;
-    private int loyaltyPoints;
 }
