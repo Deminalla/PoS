@@ -1,5 +1,6 @@
 package com.pos.demo.service;
 
+import com.pos.demo.model.dto.loyalty.UserLoyaltyDto;
 import com.pos.demo.repository.UserLoyaltyRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -40,5 +41,19 @@ public class UserLoyaltyService {
         log.info("Searching for user's {} loyalty programs", userId);
 
         return userLoyaltyRepository.getUserLoyaltyPrograms(userId);
+    }
+
+    public UserLoyaltyDto addUserToLoyalty(UUID userId, UUID loyaltyId) {
+        Optional<Integer> points = userLoyaltyRepository.findPointsByUserAndLoyaltyId(userId, loyaltyId);
+        if (points.isPresent()) {
+            log.warn("User is already associated with the loyalty program");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User is already associated with the loyalty program");
+        }
+
+        UUID randomId = UUID.randomUUID();
+        UserLoyaltyDto userLoyaltyDto = new UserLoyaltyDto(randomId, loyaltyId, userId, 0);
+        userLoyaltyRepository.addUserToLoyalty(userLoyaltyDto);
+
+        return userLoyaltyDto;
     }
 }

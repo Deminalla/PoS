@@ -1,9 +1,7 @@
 package com.pos.demo.repository;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.pos.demo.model.dto.loyalty.UserLoyaltyDto;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,4 +21,9 @@ public interface UserLoyaltyRepository {
 
     @Select("SELECT loyalty_id FROM user_loyalty WHERE user_id = #{user_id}")
     List<UUID> getUserLoyaltyPrograms(@Param("user_id") UUID userId);
+
+    @Insert("INSERT INTO user_loyalty " +
+            "(user_loyalty_id, loyalty_id, user_id, points_acquired) " +
+            "VALUES (#{userLoyalty.userLoyaltyId}, #{userLoyalty.loyaltyId}, #{userLoyalty.userId}, #{userLoyalty.pointsAcquired})")
+    void addUserToLoyalty(@Param("userLoyalty") UserLoyaltyDto userLoyalty);
 }

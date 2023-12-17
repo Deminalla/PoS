@@ -47,8 +47,7 @@ public class ItemService {
         UUID randomId = UUID.randomUUID();
         item.setItemId(randomId);
         itemRepository.createItem(item);
-        ItemEntity itemEntity = itemRepository.findById(randomId).get();
-        return itemMapper.entityToDto(itemEntity);
+        return item;
     }
 
     public ItemDto updateItemByID(UUID itemId, UpdateItem item) {

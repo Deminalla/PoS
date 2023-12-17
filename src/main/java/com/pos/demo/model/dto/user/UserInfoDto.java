@@ -8,6 +8,7 @@ import java.util.UUID;
 
 
 //For getting user info (password omitted)
+// removed loyalty_points because it made sense to store it in a different table
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
