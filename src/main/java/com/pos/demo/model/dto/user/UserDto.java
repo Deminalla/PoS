@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+// removed loyalty_points because it made sense to store it in a different table
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,5 +17,4 @@ public class UserDto {
     private String email;
     private String password;
     private String address;
-    private int loyaltyPoints;
 }

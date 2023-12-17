@@ -1,7 +1,6 @@
 package com.pos.demo.controller;
 
 import com.pos.demo.model.dto.user.CreateUserDto;
-import com.pos.demo.model.dto.user.UserDto;
 import com.pos.demo.model.dto.user.UserInfoDto;
 import com.pos.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -37,4 +36,8 @@ public class UserController {
     ResponseEntity<UserInfoDto> updateUser(@PathVariable UUID userId, @RequestBody CreateUserDto updatedUser) {
         return ResponseEntity.ok(userService.updateUser(userId, updatedUser));
     }
+
+    // clients were added to user endpoints because client is basically the same as user
+    // TO DO
+    //@GetMapping("/{userId}/orders")
 }

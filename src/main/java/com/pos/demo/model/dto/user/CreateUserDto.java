@@ -4,10 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 
 //For getting user data from api creation (id omitted)
+// removed loyalty_points because it made sense to store it in a different table
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,5 +16,4 @@ public class CreateUserDto {
     private String email;
     private String password;
     private String address;
-    private int loyaltyPoints;
 }
