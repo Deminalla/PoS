@@ -6,7 +6,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-
+// removed loyalty_points because it made sense to store it in a different table
+// separate table specifically to keep track of points
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,5 +18,4 @@ public class UserEntity {
     private String email;
     private String password;
     private String address;
-    private int loyaltyPoints;
 }
