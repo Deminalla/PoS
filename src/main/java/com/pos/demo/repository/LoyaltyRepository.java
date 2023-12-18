@@ -15,8 +15,8 @@ import java.util.UUID;
 @Repository
 public interface LoyaltyRepository {
     @Insert("INSERT INTO loyalty " +
-            "(loyalty_id, business_id, description, points_acquried) " +
-            "VALUES (#{loyalty.loyaltyId}, #{loyalty.businessId}, #{loyalty.description}, #{loyalty.pointsAcquried})")
+            "(loyalty_id, business_id, description, points_required) " +
+            "VALUES (#{loyalty.loyaltyId}, #{loyalty.businessId}, #{loyalty.description}, #{loyalty.pointsRequired})")
     void createLoyalty(@Param("loyalty") LoyaltyDto loyalty);
 
     @Select("SELECT * FROM loyalty WHERE loyalty_id = #{loyalty_id}")
