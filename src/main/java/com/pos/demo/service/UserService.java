@@ -80,8 +80,7 @@ public class UserService {
 
         //Check if user exists
         if(userRepository.findById(userId).isPresent()) {
-            int response = userRepository.deleteUser(userId);
-            if(response == 0) {
+            if(userRepository.deleteUser(userId) == 0) {
                 throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                         "Error occurred while trying to delete the user from the database");
             }
