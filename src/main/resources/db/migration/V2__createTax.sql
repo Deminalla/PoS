@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS tax;
 
 CREATE TABLE tax (
     tax_id varchar(36) NOT NULL,
-    amount_pct decimal(6,2) NOT NULL,
+    amount_pct decimal(20,2) NOT NULL,
     description varchar(100) NOT NULL,
     PRIMARY KEY (tax_id)
 );

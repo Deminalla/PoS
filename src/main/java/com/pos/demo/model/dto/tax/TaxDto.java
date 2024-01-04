@@ -1,4 +1,4 @@
-package com.pos.demo.model.dto;
+package com.pos.demo.model.dto.tax;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +11,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class TaxDto {
     private UUID taxId;
-    private Double amount_pct;
+    private Double amountPct;
     private String description;
 }

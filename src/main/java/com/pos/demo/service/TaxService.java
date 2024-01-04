@@ -1,7 +1,10 @@
 package com.pos.demo.service;
 
 import com.pos.demo.mapper.TaxMapper;
-import com.pos.demo.model.dto.TaxDto;
+import com.pos.demo.model.dto.tax.CreateTaxDto;
+import com.pos.demo.model.dto.tax.TaxDto;
+import com.pos.demo.model.dto.item.ItemDto;
+import com.pos.demo.model.entity.ItemEntity;
 import com.pos.demo.model.entity.TaxEntity;
 import com.pos.demo.repository.TaxRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,5 +33,26 @@ public class TaxService {
         }
 
         return taxMapper.entityToDto(taxEntity.get());
+    }
+
+    public List<TaxDto> getAllTax() {
+        log.info("Fetching all tax");
+        List<TaxEntity> taxEntities = taxRepository.findAll();
+        return taxMapper.entityListToDto(taxEntities);
+    }
+
+    public TaxDto createTax(CreateTaxDto taxDto) {
+        log.info("Creating item {}", taxDto);
+
+        TaxDto tax = taxMapper.createToDto(taxDto);
+        UUID randomId = UUID.randomUUID();
+        tax.setTaxId(randomId);
+
+        TaxEntity taxEntity = taxMapper.dtoToEntity(tax);
+        log.info(taxEntity);
+        taxRepository.createTax(taxEntity);
+
+        TaxEntity newTaxEntity = taxRepository.findById(randomId).get();
+        return taxMapper.entityToDto(newTaxEntity);
     }
 }

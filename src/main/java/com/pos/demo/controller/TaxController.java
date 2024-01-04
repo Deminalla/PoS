@@ -1,6 +1,7 @@
 package com.pos.demo.controller;
 
-import com.pos.demo.model.dto.TaxDto;
+import com.pos.demo.model.dto.tax.CreateTaxDto;
+import com.pos.demo.model.dto.tax.TaxDto;
 import com.pos.demo.service.TaxService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,5 +19,15 @@ public class TaxController {
     @GetMapping("/{taxId}")
     ResponseEntity<TaxDto> getTaxById(@PathVariable UUID taxId) {
         return ResponseEntity.ok(taxService.getTaxByID(taxId));
+    }
+
+    @GetMapping
+    ResponseEntity<List<TaxDto>> getAllTax() {
+        return ResponseEntity.ok(taxService.getAllTax());
+    }
+
+    @PostMapping
+    ResponseEntity<TaxDto> createTax(@RequestBody CreateTaxDto taxDto){
+        return ResponseEntity.ok(taxService.createTax(taxDto));
     }
 }
