@@ -23,4 +23,6 @@ public interface TaxRepository {
             "VALUES (#{tax.taxId}, #{tax.amountPct}, #{tax.description})")
     void createTax(@Param("tax") TaxEntity tax);
 
+    @Delete("DELETE FROM tax WHERE tax_id=(#{taxId})")
+    void deleteTax(@Param("taxId") UUID taxId);
 }

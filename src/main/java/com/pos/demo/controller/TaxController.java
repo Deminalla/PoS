@@ -1,5 +1,6 @@
 package com.pos.demo.controller;
 
+import com.pos.demo.model.dto.item.ItemDto;
 import com.pos.demo.model.dto.tax.CreateTaxDto;
 import com.pos.demo.model.dto.tax.TaxDto;
 import com.pos.demo.service.TaxService;
@@ -29,5 +30,10 @@ public class TaxController {
     @PostMapping
     ResponseEntity<TaxDto> createTax(@RequestBody CreateTaxDto taxDto){
         return ResponseEntity.ok(taxService.createTax(taxDto));
+    }
+
+    @DeleteMapping("/{taxId}")
+    ResponseEntity<TaxDto> deleteTaxById(@PathVariable UUID taxId) {
+        return ResponseEntity.ok(taxService.deleteTaxByID(taxId));
     }
 }

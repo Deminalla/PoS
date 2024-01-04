@@ -42,17 +42,23 @@ public class TaxService {
     }
 
     public TaxDto createTax(CreateTaxDto taxDto) {
-        log.info("Creating item {}", taxDto);
+        log.info("Creating tax {}", taxDto);
 
         TaxDto tax = taxMapper.createToDto(taxDto);
         UUID randomId = UUID.randomUUID();
         tax.setTaxId(randomId);
 
         TaxEntity taxEntity = taxMapper.dtoToEntity(tax);
-        log.info(taxEntity);
         taxRepository.createTax(taxEntity);
 
         TaxEntity newTaxEntity = taxRepository.findById(randomId).get();
         return taxMapper.entityToDto(newTaxEntity);
+    }
+
+    public TaxDto deleteTaxByID(UUID taxId){
+        TaxDto tax = getTaxByID(taxId);
+        taxRepository.deleteTax(taxId);
+        log.info("Tax {} was deleted", tax);
+        return tax;
     }
 }
