@@ -59,8 +59,8 @@ public class OrderController {
         return ResponseEntity.ok(receiptService.getReceipt(receiptId));
     }
 
-    @PostMapping("/{receiptId}/generate-receipt")
-    ResponseEntity<ReceiptDto> createReceipt(@PathVariable UUID receiptId) {
-        return ResponseEntity.ok(receiptService.createReceipt(receiptId));
+    @PostMapping("/{orderId}/generate-receipt")
+    ResponseEntity<ReceiptDto> createReceipt(@PathVariable UUID orderId) {
+        return ResponseEntity.ok(receiptService.createReceipt(orderId));
     }
 }
