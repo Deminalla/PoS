@@ -26,4 +26,7 @@ public interface UserLoyaltyRepository {
             "(user_loyalty_id, loyalty_id, user_id, points_acquired) " +
             "VALUES (#{userLoyalty.userLoyaltyId}, #{userLoyalty.loyaltyId}, #{userLoyalty.userId}, #{userLoyalty.pointsAcquired})")
     void addUserToLoyalty(@Param("userLoyalty") UserLoyaltyDto userLoyalty);
+
+    @Select("SELECT loyalty_id FROM user_loyalty WHERE user_loyalty_id = #{userLoyaltyId}")
+    Optional<UUID> findLoyaltyIdByUserLoyaltyId(@Param("userLoyaltyId") UUID userLoyaltyId);
 }

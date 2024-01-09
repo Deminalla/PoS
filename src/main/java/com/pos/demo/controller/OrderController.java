@@ -4,7 +4,10 @@ import com.pos.demo.model.dto.order.CreateOrderDto;
 import com.pos.demo.model.dto.order.CreateOrderItemDto;
 import com.pos.demo.model.dto.order.OrderDto;
 import com.pos.demo.model.dto.order.OrderItemDto;
+import com.pos.demo.model.dto.receipt.ReceiptDto;
+import com.pos.demo.service.OrderItemService;
 import com.pos.demo.service.OrderService;
+import com.pos.demo.service.ReceiptService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,8 @@ import java.util.UUID;
 @RequestMapping(value="/orders")
 public class OrderController {
     private final OrderService orderService;
+    private final OrderItemService orderItemService;
+    private final ReceiptService receiptService;
 
     @GetMapping("/{orderId}")
     ResponseEntity<OrderDto> getOrderById(@PathVariable UUID orderId) {
@@ -46,6 +51,16 @@ public class OrderController {
 
     @PostMapping("/{orderId}/order-additional-items")
     ResponseEntity<OrderItemDto> createOrderItem(@PathVariable UUID orderId, @RequestBody CreateOrderItemDto createOrderItemDto) {
-        return ResponseEntity.ok(orderService.createOrderItem(orderId, createOrderItemDto));
+        return ResponseEntity.ok(orderItemService.createOrderItem(orderId, createOrderItemDto));
+    }
+
+    @GetMapping("/{receiptId}/print-receipt")
+    ResponseEntity<ReceiptDto> getReceiptById(@PathVariable UUID receiptId) {
+        return ResponseEntity.ok(receiptService.getReceipt(receiptId));
+    }
+
+    @PostMapping("/{receiptId}/generate-receipt")
+    ResponseEntity<ReceiptDto> createReceipt(@PathVariable UUID receiptId) {
+        return ResponseEntity.ok(receiptService.createReceipt(receiptId));
     }
 }

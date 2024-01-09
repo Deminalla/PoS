@@ -24,9 +24,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final OrderItemRepository orderItemRepository;
     private final OrderMapper orderMapper;
-    private final OrderItemMapper orderItemMapper;
 
     private static final String ORDER_NOT_FOUND_ERROR = "Order was not found";
 
@@ -104,32 +102,5 @@ public class OrderService {
         }
 
         orderRepository.updateOrderLoyalty(orderId, userLoyaltyId);
-    }
-
-    public OrderItemDto createOrderItem(UUID orderId, CreateOrderItemDto createOrderItemDto) {
-        log.info("Creating order item");
-
-        OrderItemDto newOrderItem = orderItemMapper.createToDto(createOrderItemDto);
-        UUID randomId = UUID.randomUUID();
-        newOrderItem.setOrderItemId(randomId);
-        newOrderItem.setOrderId(orderId);
-
-        OrderItemEntity orderItemEntity = orderItemMapper.dtoToEntity(newOrderItem);
-        orderItemRepository.createOrderItem(orderItemEntity);
-
-        OrderItemEntity newOrderEntity = orderItemRepository.findById(randomId).get();
-        return orderItemMapper.entityToDto(newOrderEntity);
-    }
-
-    public OrderItemDto getOrderItemById(UUID orderItemId) {
-        log.info("Searching for order item with ID {}", orderItemId);
-        Optional<OrderItemEntity> orderItemEntity = orderItemRepository.findById(orderItemId);
-
-        if (orderItemEntity.isEmpty()) {
-            log.warn("order item was not found");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order item was not found");
-        }
-
-        return orderItemMapper.entityToDto(orderItemEntity.get());
     }
 }

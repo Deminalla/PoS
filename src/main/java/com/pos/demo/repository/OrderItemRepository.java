@@ -1,6 +1,5 @@
 package com.pos.demo.repository;
 
-import com.pos.demo.model.entity.OrderEntity;
 import com.pos.demo.model.entity.OrderItemEntity;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
